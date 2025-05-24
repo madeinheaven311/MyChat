@@ -25,7 +25,7 @@ import javax.annotation.PreDestroy;
 
 @Slf4j
 @Configuration
-public class NettyWebSocketServer {
+public class  NettyWebSocketServer {
     public static final int WEB_SOCKET_PORT = 8090;
     public static final NettyWebSocketServerHandler NETTY_WEB_SOCKET_SERVER_HANDLER = new NettyWebSocketServerHandler();
     // 创建线程池执行器
@@ -58,6 +58,8 @@ public class NettyWebSocketServer {
     public void run() throws InterruptedException {
         // 服务器启动引导对象
         ServerBootstrap serverBootstrap = new ServerBootstrap();
+
+        // 配置参数
         serverBootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 128)
@@ -94,8 +96,11 @@ public class NettyWebSocketServer {
                         pipeline.addLast(NETTY_WEB_SOCKET_SERVER_HANDLER);
                     }
                 });
+
+
         // 启动服务器，监听端口，阻塞直到启动成功
         serverBootstrap.bind(WEB_SOCKET_PORT).sync();
+
     }
 
 }
